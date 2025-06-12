@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low-Impact Strength & Support Regimen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutral with Calming Teal -->
+    <!-- Application Structure Plan: A task-oriented, tabbed single-page application. The structure includes a prominent 'Safety First' welcome tab, a 'Weekly Plan' overview, and dedicated tabs for each workout type ('Strength A', 'Strength B', 'Cardio & Core', 'Stretching'). This tabbed structure was chosen to break down the dense regimen into manageable, daily-use sections, allowing a user to quickly access the relevant workout without scrolling through irrelevant information. The primary interaction is tab navigation, with secondary interactions including checklists for exercises to enhance engagement and track progress within a session. This design transforms the linear document into a functional, interactive tool. -->
+    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation Method -> Interaction -> Justification -> Library/Method. 1. Safety Rules -> Inform/Warn -> Prominent text block -> Static display -> Ensures critical information is seen first -> HTML/Tailwind. 2. Weekly Schedule -> Organize -> HTML/CSS Grid layout -> Static visual guide -> Provides a quick overview of the weekly structure -> HTML/Tailwind. 3. Exercise Lists -> Instruct/Guide -> Interactive 'Exercise Cards' -> Checkboxes for completion -> Makes the workout interactive and tracks progress; enhances user motivation -> HTML/JS. 4. Exercise Details (Reps/Duration) -> Inform -> Clearly formatted text within cards -> Static display -> Provides clear, accessible instructions at the point of action -> HTML/Tailwind. Visual cues like Unicode icons (e.g., 🏋️, ❤️, 🧘) are used to add thematic context without graphics. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: #ffffff;
+            border-color: #0d9488; /* teal-600 */
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .exercise-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .exercise-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .form-checkbox:checked + label {
+            text-decoration: line-through;
+            color: #9ca3af; /* gray-400 */
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-teal-800">Your Personal Strength Regimen</h1>
+            <p class="text-stone-600 mt-2">A low-impact plan to build strength and support your spine safely.</p>
+        </header>
+
+        <nav id="tab-nav" class="mb-8 flex flex-wrap justify-center gap-2">
+            <button data-tab="welcome" class="tab-button px-4 py-2 text-sm md:text-base font-semibold border-2 border-stone-300 rounded-full transition-colors duration-200">Safety First</button>
+            <button data-tab="plan" class="tab-button px-4 py-2 text-sm md:text-base font-semibold border-2 border-stone-300 rounded-full transition-colors duration-200">Weekly Plan</button>
+            <button data-tab="strength-a" class="tab-button px-4 py-2 text-sm md:text-base font-semibold border-2 border-stone-300 rounded-full transition-colors duration-200">Strength A</button>
+            <button data-tab="strength-b" class="tab-button px-4 py-2 text-sm md:text-base font-semibold border-2 border-stone-300 rounded-full transition-colors duration-200">Strength B</button>
+            <button data-tab="cardio" class="tab-button px-4 py-2 text-sm md:text-base font-semibold border-2 border-stone-300 rounded-full transition-colors duration-200">Cardio & Core</button>
+            <button data-tab="stretch" class="tab-button px-4 py-2 text-sm md:text-base font-semibold border-2 border-stone-300 rounded-full transition-colors duration-200">Stretching</button>
+        </nav>
+
+        <main id="tab-content-area">
+            <!-- Welcome / Safety Tab -->
+            <section id="welcome" class="tab-content">
+                 <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-800 p-6 rounded-r-lg">
+                    <h2 class="text-2xl font-bold mb-4">Important: A Note on Your Safety</h2>
+                    <p class="mb-4">This exercise plan is for informational purposes only. Given your specific spinal conditions, it is **essential that you consult with your doctor or a physical therapist** before beginning this or any new exercise program. They can provide guidance tailored to your unique circumstances.</p>
+                    <h3 class="text-xl font-semibold mb-3">The Golden Rules for Your Workouts:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><span class="font-bold">NEVER Push Through Sharp Pain:</span> Listen to your body. If you feel any sharp, shooting, or radiating pain, stop the exercise immediately.</li>
+                        <li><span class="font-bold">Focus on Form, Not Speed:</span> Slow, controlled movements are far more effective and safer than fast, jerky ones.</li>
+                        <li><span class="font-bold">Engage Your Core:</span> Before each movement, gently tighten your abdominal muscles as if you're bracing for a light punch. This creates a "corset" of support for your spine.</li>
+                        <li><span class="font-bold">Breathe:</span> Don't hold your breath. Exhale on the most strenuous part of the exercise.</li>
+                        <li><span class="font-bold">Consistency is Key:</span> Aim for gentle, consistent activity rather than infrequent, intense workouts.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Weekly Plan Tab -->
+            <section id="plan" class="tab-content">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-center mb-6">Your Weekly Schedule</h2>
+                    <p class="text-center text-stone-600 mb-8">This schedule is a suggestion. Listen to your body and take extra rest days when you need them. Consistency is more important than intensity.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 text-center">
+                        <div class="p-4 bg-teal-50 rounded-lg border border-teal-200">
+                            <p class="font-bold">Day 1</p>
+                            <p class="text-teal-800">Strength A</p>
+                        </div>
+                        <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                            <p class="font-bold">Day 2</p>
+                            <p class="text-sky-800">Cardio & Core</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <p class="font-bold">Day 3</p>
+                            <p class="text-emerald-800">Rest / Stretch</p>
+                        </div>
+                        <div class="p-4 bg-teal-50 rounded-lg border border-teal-200">
+                            <p class="font-bold">Day 4</p>
+                            <p class="text-teal-800">Strength B</p>
+                        </div>
+                        <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                            <p class="font-bold">Day 5</p>
+                            <p class="text-sky-800">Cardio & Core</p>
+                        </div>
+                         <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <p class="font-bold">Day 6</p>
+                            <p class="text-emerald-800">Rest / Stretch</p>
+                        </div>
+                        <div class="p-4 bg-stone-100 rounded-lg border border-stone-200">
+                            <p class="font-bold">Day 7</p>
+                            <p class="text-stone-800">Rest</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Strength A Tab -->
+            <section id="strength-a" class="tab-content">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold">🏋️ Full Body Strength A</h2>
+                    <p class="text-stone-600">Aim for 2-3 sets of each exercise. Remember to perform the Warm-Up first!</p>
+                </div>
+                <div class="space-y-4">
+                    <!-- Exercise cards will be injected here -->
+                </div>
+            </section>
+
+            <!-- Strength B Tab -->
+            <section id="strength-b" class="tab-content">
+                 <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold">🏋️ Full Body Strength B</h2>
+                    <p class="text-stone-600">Aim for 2-3 sets of each exercise. Remember to perform the Warm-Up first!</p>
+                </div>
+                <div class="space-y-4">
+                    <!-- Exercise cards will be injected here -->
+                </div>
+            </section>
+
+            <!-- Cardio & Core Tab -->
+            <section id="cardio" class="tab-content">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold">❤️ Cardio & Core</h2>
+                    <p class="text-stone-600">Combine one cardio option with two core exercises.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-4">Cardio (Choose One)</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <h4 class="font-semibold">Treadmill</h4>
+                                <p class="text-sm text-stone-600">20-30 minutes of walking. Keep the incline at 0% to start. Focus on a steady pace.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Elliptical</h4>
+                                <p class="text-sm text-stone-600">20-30 minutes at a comfortable resistance. The elliptical is excellent as it has minimal impact.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-4">Core Finisher (Choose Two)</h3>
+                        <p class="text-sm text-stone-600">Select two core exercises from the Strength A or B lists (e.g., Pelvic Tilts, Bird-Dog, or Dead Bug) and perform 2 sets of each.</p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Pilates Board Options</h3>
+                     <div class="space-y-3">
+                        <div>
+                            <h4 class="font-semibold">Footwork</h4>
+                            <p class="text-sm text-stone-600">Lie on your back and place your feet on the board. Gently press out and slowly return. This strengthens legs with no spinal loading.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Arm Work</h4>
+                            <p class="text-sm text-stone-600">Use the straps for bicep curls and rows while lying down, which keeps your spine completely supported.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stretching Tab -->
+            <section id="stretch" class="tab-content">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold">🧘 Stretching Routine</h2>
+                    <p class="text-stone-600">Use the Warm-Up before every workout and the Cool-Down after every workout.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Warm-Up (5-10 Mins)</h3>
+                        <div id="warmup-exercises" class="space-y-4"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Cool-Down (5-10 Mins)</h3>
+                        <div id="cooldown-exercises" class="space-y-4"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const exercises = {
+            warmup: [
+                { name: "Gentle Cardio", desc: "5 mins of slow walking on the treadmill or easy pedaling on the elliptical.", reps: "5 mins" },
+                { name: "Cat-Cow Stretch", desc: "On hands and knees, gently alternate between arching and rounding your back.", reps: "5-8 reps" },
+                { name: "Pelvic Tilts", desc: "Lie on your back with knees bent. Gently flatten your lower back against the floor.", reps: "10 reps" }
+            ],
+            strengthA: [
+                { name: "Glute Bridges", desc: "Lie on your back, knees bent, and lift your hips until your body is in a straight line.", reps: "10-15 reps" },
+                { name: "Wall Sits", desc: "Slide your back down a wall until knees are bent at a comfortable angle. Hold.", reps: "20-45 sec" },
+                { name: "Seated Bicep Curls", desc: "Sit tall on a chair, elbows tucked in, and curl weights toward your shoulders.", reps: "10-12 reps" },
+                { name: "Banded Rows", desc: "Sit with legs extended, loop a band around your feet, and pull towards your torso.", reps: "12-15 reps" },
+                { name: "Bird-Dog", desc: "On all fours, extend your opposite arm and leg while keeping your back flat. Alternate sides.", reps: "8-10 / side" }
+            ],
+            strengthB: [
+                { name: "Clamshells", desc: "Lie on your side with knees bent. Lift your top knee without rocking your hips back. Use a band for more resistance.", reps: "15 / side" },
+                { name: "Wall Push-ups", desc: "Stand facing a wall and perform a push-up motion against it.", reps: "10-15 reps" },
+                { name: "Floor Chest Press", desc: "Lie on your back with knees bent. Press dumbbells up from your chest.", reps: "10-12 reps" },
+                { name: "Dead Bug", desc: "Lie on your back in a tabletop position. Slowly lower your opposite arm and leg. Alternate sides.", reps: "8-10 / side" },
+                { name: "Back Extension", desc: "CAUTION: Use a 45-degree bench. Hinge at hips, not your waist. Do not hyperextend.", reps: "8-12 reps" }
+            ],
+            cooldown: [
+                { name: "Hamstring Stretch", desc: "Sit and gently lean forward over one extended leg.", reps: "30 sec / side" },
+                { name: "Knee-to-Chest Stretch", desc: "Lie on your back and gently pull one knee to your chest.", reps: "30 sec / side" },
+                { name: "Figure-Four Stretch", desc: "Lie on your back, cross one ankle over the opposite knee, and pull the thigh towards you.", reps: "30 sec / side" },
+                { name: "Child's Pose", desc: "Kneel, sit back on your heels, and fold forward, resting your forehead on the floor.", reps: "30-60 sec" }
+            ]
+        };
+
+        function createExerciseCard(exercise, index) {
+            const uniqueId = `${exercise.name.replace(/\s+/g, '-')}-${index}`;
+            return `
+                <div class="exercise-card bg-white p-4 rounded-lg shadow-md flex items-center gap-4">
+                    <input type="checkbox" id="${uniqueId}" class="form-checkbox h-5 w-5 rounded text-teal-600 focus:ring-teal-500">
+                    <div class="flex-1">
+                        <label for="${uniqueId}" class="font-semibold text-stone-800 cursor-pointer">${exercise.name}</label>
+                        <p class="text-sm text-stone-600">${exercise.desc}</p>
+                    </div>
+                    <div class="text-sm font-semibold text-teal-700 bg-teal-100 px-3 py-1 rounded-full">
+                        ${exercise.reps}
+                    </div>
+                </div>
+            `;
+        }
+
+        const strengthAContainer = document.querySelector('#strength-a .space-y-4');
+        exercises.strengthA.forEach((ex, i) => strengthAContainer.innerHTML += createExerciseCard(ex, i));
+
+        const strengthBContainer = document.querySelector('#strength-b .space-y-4');
+        exercises.strengthB.forEach((ex, i) => strengthBContainer.innerHTML += createExerciseCard(ex, i));
+
+        const warmupContainer = document.getElementById('warmup-exercises');
+        exercises.warmup.forEach((ex, i) => warmupContainer.innerHTML += createExerciseCard(ex, i));
+
+        const cooldownContainer = document.getElementById('cooldown-exercises');
+        exercises.cooldown.forEach((ex, i) => cooldownContainer.innerHTML += createExerciseCard(ex, i));
+        
+        const tabs = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
+
+        function showTab(tabId) {
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[data-tab=${tabId}]`).classList.add('active');
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                showTab(tabId);
+            });
+        });
+
+        // Show the welcome tab by default
+        showTab('welcome');
+    });
+</script>
+</body>
+</html>
